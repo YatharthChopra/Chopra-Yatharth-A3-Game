@@ -9,11 +9,9 @@ using System.Threading.Tasks;
 
 namespace Game10003
 {
-    /// <summary>
     ///     The Character game object will interact with the boxes in the level
     ///     This demonstrates basic rectangle collision resolution
     ///     The boxes do move when the character hits them
-    /// </summary>
     public class Ball
     {
         private Vector2 position;
@@ -21,21 +19,16 @@ namespace Game10003
         private Vector2 velocity;
         private Color ballColor;
 
-        /// <summary>
         ///     Set up the character size, position, velocity, and color when the game object is created
-        /// </summary>
         public Ball()
         {
             ballSize = new Vector2(50, 50);
             position = new Vector2(Window.Width / 2, 150);
             velocity = new Vector2(200, 200);
-            ballColor = Color.Red;
+            ballColor = Color.Yellow;
         }
 
-        /// <summary>
         ///     Update the character each frame.
-        /// </summary>
-        /// <param name="boxes">The full array of boxes that exists from the Game.cs class</param>
         public void Update(Box[] boxes)
         {
             if (!Game.EndGame)
@@ -46,11 +39,7 @@ namespace Game10003
             DrawCharacter();
         }
 
-        /// <summary>
         ///     Checking if a collision with a box occurs
-        /// </summary>
-        /// <param name="box">A single Box game object to check against.</param>
-        /// <returns></returns>
         private bool IsCollidingWithBox(Box box)
         {
             float characterLeft = position.X;
@@ -69,10 +58,7 @@ namespace Game10003
                 characterTop <= boxBottom && characterBottom >= boxTop;
         }
 
-        /// <summary>
         ///     Check and resolve a box collision.
-        /// </summary>
-        /// <param name="box">A single Box game object to check against.</param>
         private void CollisionWithBox(Box box)
         {
             // highlighting logic
@@ -96,8 +82,6 @@ namespace Game10003
             {
                 // step 2: collision resolution
 
-                // there's a little bit of code duplication here... we could fix this with a struct that we pass around,
-                // if we wanted to
                 float characterLeft = position.X;
                 float characterRight = position.X + ballSize.X;
                 float characterTop = position.Y;
@@ -118,7 +102,7 @@ namespace Game10003
                 bool colTop = MathF.Abs(characterBottom - boxTop) < colThreshold;
                 bool colBottom = MathF.Abs(characterTop - boxBottom) < colThreshold;
 
-                // check how close each side is to the opposings side and resolve the collision accordingly
+                // check how close each side is to the opposite side and resolve the collision accordingly
                 if (colTop && velocity.Y > 0)
                 {
                     position.Y = boxTop - ballSize.Y;
@@ -142,9 +126,7 @@ namespace Game10003
             }
         }
 
-        /// <summary>
         ///     Check collisions with the screen
-        /// </summary>
         private void CollisionWithWindow()
         {
             if (position.X <= 0 && velocity.X < 0)
@@ -171,10 +153,7 @@ namespace Game10003
             }
         }
 
-        /// <summary>
         ///     Check all collisions for the character. Iterate through all boxes, and check against the window as well.
-        /// </summary>
-        /// <param name="boxes">The full array of boxes that exists from the Game.cs class</param>
         private void CollisionCheck(Box[] boxes)
         {
             foreach (Box box in boxes)
@@ -187,17 +166,13 @@ namespace Game10003
             CollisionWithWindow();
         }
 
-        /// <summary>
         ///     Update the character's position
-        /// </summary>
         private void MoveCharacter()
         {
             position += velocity * Time.DeltaTime;
         }
 
-        /// <summary>
         ///     Render the character on screen.
-        /// </summary>
         private void DrawCharacter()
         {
             Draw.LineColor = Color.Black;
@@ -205,7 +180,7 @@ namespace Game10003
             Draw.FillColor = ballColor;
             Draw.Rectangle(position, ballSize);
 
-            Draw.FillColor = Color.LightGray;
+            Draw.FillColor = new Color(128, 0, 128);
             Draw.Circle(position + ballSize / 2, ballSize.X / 4);
         }
     }

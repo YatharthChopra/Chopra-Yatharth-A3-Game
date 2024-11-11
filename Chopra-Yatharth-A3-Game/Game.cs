@@ -5,9 +5,7 @@ using System.Numerics;
 // The namespace your code is in.
 namespace Game10003
 {
-    /// <summary>
-    ///     this is a simple game of breakout but with a twist
-    /// </summary>
+    ///     this is a simple game of Breakout but with a twist!
     public class Game
     {
         // Initialize the box positions, the Box game objects, and the Character game object
@@ -20,7 +18,7 @@ namespace Game10003
             new(800 - 100, 600 - 60) };
 
         KeyboardInput[] destroyKeys = {
-            KeyboardInput.W, // 0
+            KeyboardInput.W, // 0 (The first array always starts with 0 and never 1!)
             KeyboardInput.A, // 1
             KeyboardInput.S, // 2
             KeyboardInput.D  // 3
@@ -35,9 +33,7 @@ namespace Game10003
         public static bool EndGame = false;
         public static bool WinGame = false;
 
-        /// <summary>
         ///     Setup runs once before the game loop begins.
-        /// </summary>
         public void Setup()
         {
             Window.TargetFPS = 60;
@@ -72,9 +68,7 @@ namespace Game10003
             myCharacter = new Ball();
         }
 
-        /// <summary>
         ///     Update runs every frame.
-        /// </summary>
         public void Update()
         {
             Window.ClearBackground(Color.White);

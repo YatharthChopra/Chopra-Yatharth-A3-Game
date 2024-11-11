@@ -22,7 +22,7 @@ namespace Game10003
         private float oscillationFrequency = 2.0f; // frequency for oscillation
         private float currentOscillationPhase = 0.0f;
         private Color boxBaseColor;
-        private Color boxHighlightColor = Color.Cyan;
+        private Color boxHighlightColor = Color.Red;
 
         public Box(Vector2 startPosition, bool isPaddle = false)
         {
@@ -31,7 +31,7 @@ namespace Game10003
 
             if (this.IsPaddle)
             {
-                this.boxBaseColor = Color.Red;
+                this.boxBaseColor = Color.Green;
                 this.Size = new Vector2(150, 30); // Reduced paddle size to make the game more challenging
             }
             else
@@ -43,9 +43,7 @@ namespace Game10003
             }
         }
 
-        /// <summary>
         /// Updates the state of the Box in each frame.
-        /// </summary>
         public void Update()
         {
             if (Alive && !Game.EndGame)
@@ -56,9 +54,7 @@ namespace Game10003
             }
         }
 
-        /// <summary>
         /// Updates the position of the box, with vertical oscillation for non-paddles.
-        /// </summary>
         private void UpdatePosition()
         {
             if (IsPaddle)
@@ -74,9 +70,7 @@ namespace Game10003
             }
         }
 
-        /// <summary>
         /// Renders the box on the screen.
-        /// </summary>
         private void RenderBox()
         {
             Draw.LineColor = boxBaseColor;
@@ -85,9 +79,7 @@ namespace Game10003
             Draw.Rectangle(Position, Size);
         }
 
-        /// <summary>
         /// Checks for collisions with the screen boundaries and applies a slight bounce effect.
-        /// </summary>
         private void CheckCollision()
         {
             if ((Position.X <= 0 && direction.X < 0) || (Position.X + Size.X >= Window.Size.X && direction.X > 0))
