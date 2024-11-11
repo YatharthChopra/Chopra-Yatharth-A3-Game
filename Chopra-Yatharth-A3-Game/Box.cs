@@ -32,7 +32,7 @@ namespace Game10003
             if (this.IsPaddle)
             {
                 this.boxBaseColor = Color.Red;
-                this.Size = new Vector2(200, 30);
+                this.Size = new Vector2(150, 30); // Reduced paddle size to make the game more challenging
             }
             else
             {
