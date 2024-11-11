@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace Game10003
 {
+    /// <summary>
     ///     The Character game object will interact with the boxes in the level
     ///     This demonstrates basic rectangle collision resolution
     ///     The boxes do move when the character hits them
+    /// </summary>
     public class Ball
     {
         private Vector2 position;
@@ -30,7 +32,10 @@ namespace Game10003
             ballColor = Color.Red;
         }
 
+        /// <summary>
         ///     Update the character each frame.
+        /// </summary>
+        /// <param name="boxes">The full array of boxes that exists from the Game.cs class</param>
         public void Update(Box[] boxes)
         {
             if (!Game.EndGame)
@@ -40,7 +45,12 @@ namespace Game10003
             }
             DrawCharacter();
         }
+
+        /// <summary>
         ///     Checking if a collision with a box occurs
+        /// </summary>
+        /// <param name="box">A single Box game object to check against.</param>
+        /// <returns></returns>
         private bool IsCollidingWithBox(Box box)
         {
             float characterLeft = position.X;
@@ -59,7 +69,10 @@ namespace Game10003
                 characterTop <= boxBottom && characterBottom >= boxTop;
         }
 
-        ///     Check and resolve a box collision. 
+        /// <summary>
+        ///     Check and resolve a box collision.
+        /// </summary>
+        /// <param name="box">A single Box game object to check against.</param>
         private void CollisionWithBox(Box box)
         {
             // highlighting logic
@@ -127,6 +140,73 @@ namespace Game10003
                     velocity.X *= -1;
                 }
             }
+        }
+
+        /// <summary>
+        ///     Check collisions with the screen
+        /// </summary>
+        private void CollisionWithWindow()
+        {
+            if (position.X <= 0 && velocity.X < 0)
+            {
+                position.X = 0;
+                velocity.X *= -1;
+            }
+            if (position.X + ballSize.X >= Window.Size.X && velocity.X > 0)
+            {
+                position.X = Window.Size.X - ballSize.X;
+                velocity.X *= -1;
+            }
+            if (position.Y < 0 && velocity.Y < 0)
+            {
+                position.Y = 0;
+                velocity.Y *= -1;
+            }
+            if (position.Y + ballSize.Y >= Window.Size.Y && velocity.Y > 0)
+            {
+                position.Y = Window.Size.Y - ballSize.Y;
+                velocity.Y *= -1;
+
+                Game.EndGame = true;
+            }
+        }
+
+        /// <summary>
+        ///     Check all collisions for the character. Iterate through all boxes, and check against the window as well.
+        /// </summary>
+        /// <param name="boxes">The full array of boxes that exists from the Game.cs class</param>
+        private void CollisionCheck(Box[] boxes)
+        {
+            foreach (Box box in boxes)
+            {
+                if (!box.Alive) continue;
+
+                CollisionWithBox(box);
+            }
+
+            CollisionWithWindow();
+        }
+
+        /// <summary>
+        ///     Update the character's position
+        /// </summary>
+        private void MoveCharacter()
+        {
+            position += velocity * Time.DeltaTime;
+        }
+
+        /// <summary>
+        ///     Render the character on screen.
+        /// </summary>
+        private void DrawCharacter()
+        {
+            Draw.LineColor = Color.Black;
+            Draw.LineSize = 1;
+            Draw.FillColor = ballColor;
+            Draw.Rectangle(position, ballSize);
+
+            Draw.FillColor = Color.LightGray;
+            Draw.Circle(position + ballSize / 2, ballSize.X / 4);
         }
     }
 }

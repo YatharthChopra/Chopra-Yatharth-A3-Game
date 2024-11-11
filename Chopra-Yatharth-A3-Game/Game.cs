@@ -6,11 +6,10 @@ using System.Numerics;
 namespace Game10003
 {
     /// <summary>
-    ///     This is a simple game of Breakout but with a twist!
+    ///     this is a simple game of breakout but with a twist
     /// </summary>
     public class Game
     {
-        // Place your variables here:
         // Initialize the box positions, the Box game objects, and the Character game object
         Vector2[] boxPositions = {
 
@@ -26,8 +25,9 @@ namespace Game10003
             KeyboardInput.S, // 2
             KeyboardInput.D  // 3
         };
+
         Box[] boxes = new Box[5];
-        
+        Ball myCharacter;
         float gameTimer = 0.0f;
 
         // static Game variables that can be accessed anywhere
@@ -41,7 +41,7 @@ namespace Game10003
         public void Setup()
         {
             Window.TargetFPS = 60;
-            Window.SetTitle("Rectangle Collision Resolution");
+            Window.SetTitle("The Breakout Game");
             Window.SetSize(800, 600);
 
             // initialize random number for key
@@ -67,6 +67,9 @@ namespace Game10003
                     boxes[i] = new Box(boxPositions[i], true);
                 }
             }
+
+            // set up the character object
+            myCharacter = new Ball();
         }
 
         /// <summary>
@@ -88,7 +91,8 @@ namespace Game10003
 
             if (Game.WinGame) Game.EndGame = true;
 
-            
+            // update the character - it needs to know about all the boxes!
+            myCharacter.Update(boxes);
 
             if (Game.EndGame)
             {
