@@ -73,6 +73,12 @@ namespace Game10003
         {
             Window.ClearBackground(Color.White);
 
+            // Check for reset input (pressing the "R" key)
+            if (Input.IsKeyboardKeyPressed(KeyboardInput.R))
+            {
+                ResetGame();
+            }
+
             // update all the boxes
             int deadCounter = 0;
             foreach (Box box in boxes)
@@ -94,17 +100,44 @@ namespace Game10003
                 {
                     string multiLineText = "YEAH BRO YOU DID IT,\n \nI AM REALLY PROUD OF YOU!";
                     Text.Draw(multiLineText, new Vector2(Window.Width / 2 - 50, Window.Height / 2));
-
                 }
                 else
                 {
                     Text.Draw($"ARE YA WINNING SON?", new Vector2(Window.Width / 2 - 50, Window.Height / 2));
                 }
+                Text.Draw("Press R to try again!", new Vector2(10, Window.Height - 30));
             }
-            else gameTimer = Time.SecondsElapsed;
+            else
+            {
+                gameTimer = Time.SecondsElapsed;
+                Text.Draw("Press W A S D to destroy one of the boxes once you're near it.", new Vector2(10, Window.Height - 30));
+            }
 
             Text.Draw($"Score: {Game.Score}", new Vector2(10, 10));
             Text.Draw($"Time: {gameTimer:F1} s", new Vector2(10, 50));
+        }
+
+        // Function to reset the game state
+        private void ResetGame()
+        {
+            Game.Score = 0;
+            Game.EndGame = false;
+            Game.WinGame = false;
+            gameTimer = 0.0f;
+
+            // Reset all boxes to their initial states
+            for (int i = 0; i < boxes.Length; i++)
+            {
+                boxes[i].Alive = true;
+                boxes[i].Highlight = false;
+                if (!boxes[i].IsPaddle)
+                {
+                    boxes[i].Position = boxPositions[i];
+                }
+            }
+
+            // Reset character
+            myCharacter = new Ball();
         }
     }
 }
